@@ -1,0 +1,33 @@
+{
+  "name": "js13kgames-truck",
+  "version": "1.0.0",
+  "description": "Entry for the JS13kGames competition 2015",
+  "private": true,
+  "main": "dist/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davecheesefish/JS13kGames-Truck-It.git"
+  },
+  "keywords": [
+    "truck",
+    "reversing",
+    "game",
+    "html5",
+    "canvas"
+  ],
+  "author": "David Prior <http://davidprior.media>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/davecheesefish/JS13kGames-Truck-It/issues"
+  },
+  "homepage": "https://github.com/davecheesefish/JS13kGames-Truck-It#readme",
+  "devDependencies": {
+    "amdclean": "^2.7.0",
+    "jszip": "^2.5.0",
+    "requirejs": "^2.1.20",
+    "uglify-js": "^2.4.24"
+  }
+}
