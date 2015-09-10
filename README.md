@@ -6,6 +6,7 @@ A truck-reversing game built as an entry for the [JS13kGames contest 2015](http:
 You will need:
 - Node.js with npm
 - pngcrush installed to a location in your PATH
+- Compass installed to a location on your PATH
 
 ###Building
 From the base directory, run `node build/build.js`. On completion, the finished files can be found in the dist folder.
