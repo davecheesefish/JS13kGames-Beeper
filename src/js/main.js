@@ -1,3 +1,3 @@
 require(['game'], function(Game){
-	Game.init();
+	Game.init(document.getElementById('gc'));
 });
