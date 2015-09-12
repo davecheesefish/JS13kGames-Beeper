@@ -1,4 +1,4 @@
-define(['utils/text', 'screens/level'], function(Text, LevelScreen){
+define(['utils/inputhelper', 'utils/text', 'screens/level'], function(Input, Text, LevelScreen){
 	
 	// Normalise proprietary RAF implementations
 	var requestAnimFrame =
@@ -41,6 +41,9 @@ define(['utils/text', 'screens/level'], function(Text, LevelScreen){
 		
 		// Update all visible screens.
 		this.update = function(dT){
+			// Update input states
+			Input.update();
+			
 			var deadScreens = [];
 			// Process in reverse order so the screen drawn on top (last pushed) gets processed first.
 			for (var i = screens.length - 1; i >= 0; i--){

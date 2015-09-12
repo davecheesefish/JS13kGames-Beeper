@@ -17,7 +17,7 @@ define(['utils/vector2', 'utils/rectangle', 'utils/inputhelper'], function(Vecto
 		};
 		
 		this.update = function(deltaTime){
-			if (Input.keyIsPressed(87) && velocity.length() < maxSpeed){
+			if (Input.keyIsPressed(38) && velocity.length() < maxSpeed){
 				velocity.add(Vector2.fromComponents(maxAcceleration * deltaTime, rotation));
 			};
 			

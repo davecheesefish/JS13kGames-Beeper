@@ -61,7 +61,6 @@ define(function(){
 		'^2O7B8', // Up arrow    (circumflex)
 		'<2S70K', // Left arrow  (less than)
 		'>2L6F8'  // Right arrow (more than)
-		
 	];
 	
 	// Convert into a dictionary. Yes this is insane, but with so many characters it works out smaller than defining an
