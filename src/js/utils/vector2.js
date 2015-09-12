@@ -27,13 +27,28 @@ define(function(){
 	// Mainly used for debugging. Returns the vector as a human-readable string.
 	Vector2.prototype.toString = function(){
 		return this.x + ', ' + this.y;
-	}
+	};
+	
+	// Returns a new copy of this Vector2's values.
+	Vector2.prototype.copy = function(){
+		return new Vector2(this.x, this.y);
+	};
+	
+	// Returns true if vector has the same x and y values as this vector.
+	Vector2.prototype.equals = function(vector){
+		return (vector.x === this.x && vector.y === this.y);
+	};
 	
 	
 	// Static functions
 	// Create a new vector from magnitude and direction
 	Vector2.fromComponents = function(mag, dir){
 		return new Vector2(mag * Math.cos(dir), mag * Math.sin(dir));
+	};
+	
+	// Add vec1 and vec2, returning the result as a new Vector2
+	Vector2.add = function(vec1, vec2){
+		return new Vector2(vec1.x + vec2.x, vec1.y + vec2.y);
 	};
 	
 	// Subtract vec2 from vec1 and return the result as a new Vector2
@@ -44,6 +59,13 @@ define(function(){
 	// Multiply a vector by a given scale factor
 	Vector2.multiply = function(vector, factor){
 		return new Vector2(vector.x * factor, vector.y * factor);
+	};
+	
+	// Rotate a vector by a given angle
+	Vector2.rotate = function(vector, angle){
+		var len = vector.length();
+		var ang = vector.angle() + angle;
+		return new Vector2(len * Math.cos(ang), len * Math.sin(ang));
 	};
 	
 	
