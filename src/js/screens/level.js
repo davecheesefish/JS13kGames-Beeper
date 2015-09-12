@@ -7,7 +7,7 @@ define(['utils/classes', 'screens/screen', 'utils/vector2', 'level/truck'], func
 		// Privileged
 		this.init = function(){
 			// Add test truck
-			items.push(new Truck(new Vector2(20, 20), 0.25 * Math.PI));
+			items.push(new Truck(new Vector2(20, 80), 0.25 * Math.PI));
 		};
 		
 		// Update level items.

@@ -1,4 +1,4 @@
-define(['screens/level'], function(LevelScreen){
+define(['utils/text', 'screens/level'], function(Text, LevelScreen){
 	
 	// Normalise proprietary RAF implementations
 	var requestAnimFrame =
@@ -23,7 +23,7 @@ define(['screens/level'], function(LevelScreen){
 			lastUpdate = timestamp;
 			
 			this.update(dT);
-			this.draw();
+			this.draw(canvasContext);
 			rafHandle = requestAnimFrame(onRaf);
 		}).bind(this);
 		
@@ -60,14 +60,16 @@ define(['screens/level'], function(LevelScreen){
 		};
 		
 		// Draw all visible screens.
-		this.draw = function(){
+		this.draw = function(context){
 			// Reset transform and clear canvas for drawing
 			canvasContext.setTransform(1, 0, 0, 1, 0, 0);
 			canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 			
 			for (var i in screens){
-				screens[i].draw(canvasContext);
+				screens[i].draw(context);
 			}
+			
+			Text.draw(context, 'Beeper', 10, canvas.height - 20, 2);
 		};
 		
 		// Add a new screen to the stack. 
