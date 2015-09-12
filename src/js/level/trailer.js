@@ -4,9 +4,9 @@ define(['utils/vector2', 'utils/rectangle'], function(Vector2, Rectangle){
 		var position = position || new Vector2(),
 			rotation = rotation || 0;
 		
-		var pivot = new Vector2(-34, 0);
+		var pivot = new Vector2(-134, 0);
 		
-		var boundingBox = new Rectangle(position.x, position.y, 76, 18, rotation, 72, 9);
+		var boundingBox = new Rectangle(position.x, position.y, 152, 36, rotation, 144, 18);
 		
 		this.towTo = function(towPos){
 			if ( ! towPos.equals(position)){
@@ -25,7 +25,7 @@ define(['utils/vector2', 'utils/rectangle'], function(Vector2, Rectangle){
 		};
 		
 		this.draw = function(context){
-			context.fillStyle = '#777';
+			context.fillStyle = '#555';
 			boundingBox.draw(context);
 		};
 	};

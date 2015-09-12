@@ -6,10 +6,15 @@ define(['level/trailer', 'utils/vector2', 'utils/rectangle', 'utils/inputhelper'
 		
 		var maxSpeed = 60,
 			maxAcceleration = 20,
-			maxDeceleration = 40,
-			turnSpeed = 0.005 * Math.PI,
+			maxDeceleration = 45,
+			friction = 10,
+			steeringAngle = 0,
+			steeringSpeed = 0.5 * Math.PI,
+			maxSteeringAngle = 0.55 * Math.PI,
+			steeringCentering = 1 * Math.PI,
+			steeringForcePoint = new Vector2(40, 0),
 			speed = 0,
-			boundingBox = new Rectangle(position.x, position.y, 30, 16, rotation, 10, 8),
+			boundingBox = new Rectangle(position.x, position.y, 60, 32, rotation, 16, 16),
 			trailer = new Trailer(position.copy(), rotation);
 		
 		this.updateBoundingBox = function(){
@@ -19,7 +24,9 @@ define(['level/trailer', 'utils/vector2', 'utils/rectangle', 'utils/inputhelper'
 		};
 		
 		this.update = function(deltaTime){
+			var speedInput = false;
 			if (Input.keyIsPressed(38) && speed < maxSpeed){
+				speedInput = true;
 				if (speed > 0) {
 					speed += maxAcceleration * deltaTime;
 				} else {
@@ -28,6 +35,7 @@ define(['level/trailer', 'utils/vector2', 'utils/rectangle', 'utils/inputhelper'
 			};
 			
 			if (Input.keyIsPressed(40) && speed > -maxSpeed){
+				speedInput = true;
 				if (speed > 0) {
 					speed -= maxDeceleration * deltaTime;
 				} else {
@@ -35,17 +43,48 @@ define(['level/trailer', 'utils/vector2', 'utils/rectangle', 'utils/inputhelper'
 				}
 			};
 			
-			// Work out direction to turn
+			// If no throttle/brake is pressed, slow down through friction
+			if ( ! speedInput){
+				// Make sure friction can't go past 0 speed.
+				if (Math.abs(speed) > friction * deltaTime){
+					speed -= Math.sign(speed) * friction * deltaTime;
+				} else {
+					speed = 0;
+				}
+			}
+			
+			// Work out direction the steering wheels are pointing
+			var steeringInput = false;
 			var turnFactor = 0;
 			if (Input.keyIsPressed(37)){
-				turnFactor--;
+				steeringInput = true;
+				if (steeringAngle > -maxSteeringAngle + (steeringSpeed * deltaTime)){
+					steeringAngle -= steeringSpeed * deltaTime;
+				} else {
+					steeringAngle = -maxSteeringAngle;
+				}
 			}
 			if (Input.keyIsPressed(39)){
-				turnFactor++;
+				steeringInput = true;
+				if (steeringAngle < maxSteeringAngle - (steeringSpeed * deltaTime)){
+					steeringAngle += steeringSpeed * deltaTime;
+				} else {
+					steeringAngle = maxSteeringAngle;
+				}
+			}
+			
+			if ( ! steeringInput){
+				// Make sure friction can't go past 0 speed.
+				if (Math.abs(steeringAngle) > steeringCentering * deltaTime){
+					steeringAngle -= Math.sign(steeringAngle) * steeringCentering * deltaTime;
+				} else {
+					steeringAngle = 0;
+				}
 			}
 			
 			// Do the turning
-			rotation += turnFactor * turnSpeed * deltaTime * speed;
+			rotation += deltaTime * Math.atan((Math.sin(steeringAngle) * speed) / steeringForcePoint.length());
+			//rotation += turnFactor * turnSpeed * deltaTime * speed;
 			
 			var velocity = Vector2.fromComponents(speed, rotation);
 			position.add(Vector2.multiply(velocity, deltaTime));
