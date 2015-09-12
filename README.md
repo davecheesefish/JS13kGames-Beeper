@@ -1,4 +1,4 @@
-#Truck It
+#Beeper
 A truck-reversing game built as an entry for the [JS13kGames contest 2015](http://2015.js13kgames.com/). Everything has been done to squeeze all I can out of the 13kB size limit, so this should definitely not be used an example of best programming practices!
 
 ##Development
