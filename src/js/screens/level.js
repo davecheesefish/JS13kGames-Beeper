@@ -1,8 +1,9 @@
-define(     ['level/target', 'level/truck', 'level/building', 'utils/classes', 'screens/screen', 'utils/vector2', 'data/levels'],
-	function( Target,         Truck,         Building,         ClassUtils,      Screen,           Vector2,         levelData){
+define(     ['level/target', 'level/truck', 'level/building', 'level/helptext', 'utils/classes', 'screens/screen', 'utils/vector2', 'data/levels'],
+	function( Target,         Truck,         Building,         HelpText,         ClassUtils,      Screen,           Vector2,         levelData){
 	
 	var levelObjects = {
 		'b': Building,
+		'h': HelpText,
 		't': Truck
 		/**
 		 * Special:
