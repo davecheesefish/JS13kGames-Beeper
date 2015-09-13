@@ -18,7 +18,7 @@ define(['utils/vector2'], function(Vector2){
 		// Private functions
 		var onKeyDown = function(e){
 			// Prevent default action on game controls to avoid clashes between game and browser
-			if (gameKeyControls.indexOf(e.keyCode) === -1){
+			if (gameKeyControls.indexOf(e.keyCode) !== -1){
 				e.preventDefault();
 			}
 			
@@ -28,7 +28,7 @@ define(['utils/vector2'], function(Vector2){
 		};
 		
 		var onKeyUp = function(e){
-			if (gameKeyControls.indexOf(e.keyCode) === -1){
+			if (gameKeyControls.indexOf(e.keyCode) !== -1){
 				e.preventDefault();
 			}
 			
