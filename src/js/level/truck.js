@@ -17,6 +17,10 @@ define(['level/trailer', 'utils/vector2', 'utils/rectangle', 'utils/inputhelper'
 			boundingBox = new Rectangle(position.x, position.y, 60, 32, rotation, 16, 16),
 			trailer = new Trailer(position.copy(), rotation);
 		
+		this.getTrailer = function(){
+			return trailer;
+		};
+		
 		this.updateBoundingBox = function(){
 			boundingBox.x = position.x;
 			boundingBox.y = position.y;

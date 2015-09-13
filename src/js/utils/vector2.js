@@ -39,6 +39,11 @@ define(function(){
 		return (vector.x === this.x && vector.y === this.y);
 	};
 	
+	// Returns the dot product of this vector with the other one provided
+	Vector2.prototype.dot = function(vector){
+		return (this.x * vector.x) + (this.y * vector.y);
+	};
+	
 	
 	// Static functions
 	// Create a new vector from magnitude and direction
@@ -67,6 +72,14 @@ define(function(){
 		var ang = vector.angle() + angle;
 		return new Vector2(len * Math.cos(ang), len * Math.sin(ang));
 	};
+	
+	// Project a vector onto an axis described by another vector.
+	Vector2.project = function(vector, axis){
+		var x = axis.x * ((vector.x * axis.x + vector.y * axis.y) / (Math.pow(axis.x, 2) + Math.pow(axis.y, 2))),
+			y = axis.y * ((vector.x * axis.x + vector.y * axis.y) / (Math.pow(axis.x, 2) + Math.pow(axis.y, 2)));
+		
+		return new Vector2(x, y);
+	}
 	
 	
 	return Vector2;

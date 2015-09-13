@@ -72,7 +72,7 @@ define(['utils/inputhelper', 'utils/text', 'screens/level'], function(Input, Tex
 				screens[i].draw(context);
 			}
 			
-			Text.draw(context, 'Beeper', 10, canvas.height - 20, 2);
+			Text.draw(context, 'Beeper', 15, canvas.height - 25, 2);
 		};
 		
 		// Add a new screen to the stack. 

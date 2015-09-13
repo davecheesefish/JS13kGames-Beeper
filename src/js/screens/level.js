@@ -1,14 +1,30 @@
-define(['level/truck', 'level/building', 'utils/classes', 'screens/screen', 'utils/vector2', 'data/levels'], function(Truck, Building, ClassUtils, Screen, Vector2, levelData){
+define(     ['level/target', 'level/truck', 'level/building', 'utils/classes', 'screens/screen', 'utils/vector2', 'data/levels'],
+	function( Target,         Truck,         Building,         ClassUtils,      Screen,           Vector2,         levelData){
 	
 	var levelObjects = {
 		'b': Building,
 		't': Truck
+		/**
+		 * Special:
+		 * T - Target zone
+		 */
 	};
 	
 	var Level = function(){
 		// Private
-		var items = [],
-			levelNo;
+		var items,
+			levelNo,
+			truck,
+			target;
+		
+		// Private
+		var updateCollisions = function(){
+			if (truck.getTrailer().getBoundingBox().collidesWith(target.getBoundingBox())){
+				target.setTrailerInArea(true);
+			} else {
+				target.setTrailerInArea(false);
+			}
+		};
 		
 		// Privileged
 		this.init = function(lvlNo){
@@ -20,22 +36,38 @@ define(['level/truck', 'level/building', 'utils/classes', 'screens/screen', 'uti
 		this.load = function(lvlNo){
 			// Reset level items array
 			items = [];
+			truck = undefined;
+			target = undefined;
 			
 			// Insert default buildings around the edge
 			items.push(new Building(-20, -20, 1064, 30));
 			items.push(new Building(-20, 566, 1064, 30));
-			items.push(new Building(-20, 0, 30, 576));
-			items.push(new Building(0, 1014, 30, 576));
+			items.push(new Building(-20, 10, 30, 556));
+			items.push(new Building(1014, 10, 30, 556));
 			
 			// Get saved level data from levelData array
 			var data = levelData[lvlNo];
 			
 			for (var obj in data){
-				var objData = data[obj];
+				var newObj,
+					objData = data[obj];
 				
 				// Hack using bind() to call a constructor with an array of arguments
-				var newObj = new (Function.prototype.bind.apply(levelObjects[objData[0]], objData))();
-				items.push(newObj);
+				// Not perfect - the first array element is ignored but required anyway.
+				switch(objData[0]){
+				case 't':
+					// Truck
+					truck = new (Function.bind.apply(Truck, objData))();
+					break;
+				case 'T':
+					// Target area
+					target = new (Function.bind.apply(Target, objData))();
+					break;
+				default:
+					// Hack using bind() to call a constructor with an array of arguments
+					items.push(new (Function.bind.apply(levelObjects[objData[0]], objData))());
+					break;
+				}
 			}
 			
 			levelNo = lvlNo;
@@ -43,13 +75,21 @@ define(['level/truck', 'level/building', 'utils/classes', 'screens/screen', 'uti
 		
 		// Update level items.
 		this.update = function(deltaTime){
+			truck.update(deltaTime);
+			target.update(deltaTime);
+			
 			for (var i in items){
 				items[i].update(deltaTime);
 			}
+			
+			updateCollisions();
 		};
 		
 		// Draw level items.
 		this.draw = function(context){
+			target.draw(context);
+			truck.draw(context);
+			
 			for (var i in items){
 				items[i].draw(context);
 			}

@@ -8,6 +8,10 @@ define(['utils/vector2', 'utils/rectangle'], function(Vector2, Rectangle){
 		
 		var boundingBox = new Rectangle(position.x, position.y, 152, 36, rotation, 144, 18);
 		
+		this.getBoundingBox = function(){
+			return boundingBox;
+		};
+		
 		this.towTo = function(towPos){
 			if ( ! towPos.equals(position)){
 				var pivotPos = Vector2.add(position, Vector2.rotate(pivot, rotation));
