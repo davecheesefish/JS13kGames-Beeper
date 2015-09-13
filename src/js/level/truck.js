@@ -1,7 +1,7 @@
 define(['level/trailer', 'utils/vector2', 'utils/rectangle', 'utils/inputhelper'], function(Trailer, Vector2, Rectangle, Input){
 	
-	var Truck = function(position, rotation){
-		var position = position || new Vector2(),
+	var Truck = function(x, y, rotation){
+		var position = new Vector2(x, y),
 			rotation = rotation || 0;
 		
 		var maxSpeed = 60,
