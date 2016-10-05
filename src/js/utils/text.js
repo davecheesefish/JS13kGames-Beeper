@@ -12,9 +12,11 @@ define(function(){
 	
 	var charsTemp = [
 	    ' 0'    , // Punctuation
+	    '!MWW'  ,
 	    '"GVEO' ,
 	    '%ANKEP',
 		"'IYO"  ,
+		':7WG' ,
 		'(BHC'  ,
 		')C8W0' ,
 		',NVNK' ,

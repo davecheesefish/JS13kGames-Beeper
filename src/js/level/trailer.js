@@ -29,7 +29,7 @@ define(['utils/vector2', 'utils/rectangle'], function(Vector2, Rectangle){
 		};
 		
 		this.draw = function(context){
-			context.fillStyle = '#555';
+			context.fillStyle = '#FF8900';
 			boundingBox.draw(context);
 		};
 	};

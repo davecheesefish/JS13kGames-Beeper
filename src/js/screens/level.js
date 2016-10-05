@@ -1,5 +1,28 @@
-define(     ['level/target', 'level/truck', 'level/building', 'level/helptext', 'utils/classes', 'screens/screen', 'utils/vector2', 'data/levels'],
-	function( Target,         Truck,         Building,         HelpText,         ClassUtils,      Screen,           Vector2,         levelData){
+define([
+	'level/building',
+	'level/helptext',
+	'level/target',
+	'level/truck',
+	'screens/gameover',
+	'screens/screen',
+	'utils/classes',
+	'utils/inputhelper',
+	'utils/vector2',
+	
+	'data/levels'
+], function(
+	Building,
+	HelpText,
+	Target,
+	Truck,
+	GameOverScreen,
+	Screen,
+	ClassUtils,
+	Input,
+	Vector2,
+	
+	levelData
+){
 	
 	var levelObjects = {
 		'b': Building,
@@ -17,15 +40,6 @@ define(     ['level/target', 'level/truck', 'level/building', 'level/helptext', 
 			levelNo,
 			truck,
 			target;
-		
-		// Private
-		var updateCollisions = function(){
-			if (truck.getTrailer().getBoundingBox().collidesWith(target.getBoundingBox())){
-				target.setTrailerInArea(true);
-			} else {
-				target.setTrailerInArea(false);
-			}
-		};
 		
 		// Privileged
 		this.init = function(lvlNo){
@@ -74,8 +88,44 @@ define(     ['level/target', 'level/truck', 'level/building', 'level/helptext', 
 			levelNo = lvlNo;
 		};
 		
+		this.loadNext = function(){
+			if (typeof levelData[levelNo + 1] !== 'undefined'){
+				this.load(levelNo + 1);
+			} else {
+				this.load(0);
+			}
+		};
+		
+		this.reset = function(){
+			this.load(levelNo);
+		};
+		
+		this.updateCollisions = function(game){
+			if (truck.getTrailer().getBoundingBox().collidesWith(target.getBoundingBox())){
+				target.setTrailerInArea(true);
+				if (Input.keyJustReleased(13)){
+					game.add(new GameOverScreen(this, {score: 10, success:true}));
+				}
+			} else {
+				target.setTrailerInArea(false);
+			}
+			
+			for (var i in items){
+				if (typeof items[i].getBoundingBox !== 'function'){
+					break;
+				}
+				
+				if (
+					truck.getBoundingBox().collidesWith(items[i].getBoundingBox()) ||
+					truck.getTrailer().getBoundingBox().collidesWith(items[i].getBoundingBox())
+				){
+					game.add(new GameOverScreen(this, {score: 0, success:false}));
+				}
+			}
+		};
+		
 		// Update level items.
-		this.update = function(deltaTime){
+		this.update = function(deltaTime, game){
 			truck.update(deltaTime);
 			target.update(deltaTime);
 			
@@ -83,17 +133,17 @@ define(     ['level/target', 'level/truck', 'level/building', 'level/helptext', 
 				items[i].update(deltaTime);
 			}
 			
-			updateCollisions();
+			this.updateCollisions(game);
 		};
 		
 		// Draw level items.
 		this.draw = function(context){
-			target.draw(context);
-			truck.draw(context);
-			
 			for (var i in items){
 				items[i].draw(context);
 			}
+			
+			target.draw(context);
+			truck.draw(context);
 		};
 		
 	};

@@ -1,4 +1,4 @@
-define(['utils/inputhelper', 'utils/text', 'screens/level'], function(Input, Text, LevelScreen){
+define(['utils/inputhelper', 'utils/text', 'screens/level', 'screens/gameover'], function(Input, Text, LevelScreen, GameOverScreen){
 	
 	// Normalise proprietary RAF implementations
 	var requestAnimFrame =
@@ -41,15 +41,16 @@ define(['utils/inputhelper', 'utils/text', 'screens/level'], function(Input, Tex
 		
 		// Update all visible screens.
 		this.update = function(dT){
-			// Update input states
-			Input.update();
-			
 			var deadScreens = [];
 			// Process in reverse order so the screen drawn on top (last pushed) gets processed first.
 			for (var i = screens.length - 1; i >= 0; i--){
-				screens[i].update(dT);
+				screens[i].update(dT, this);
 				if ( ! screens[i].alive){
 					deadScreens.push(i);
+				}
+				// If this screen blocks updates, don't process any more
+				if (screens[i].blocksUpdate){
+					break;
 				}
 			}
 			
@@ -60,6 +61,9 @@ define(['utils/inputhelper', 'utils/text', 'screens/level'], function(Input, Tex
 				screens.splice(deadScreens[i] - screensRemoved, 1);
 				screensRemoved++;
 			}
+			
+			// Update input states
+			Input.update();
 		};
 		
 		// Draw all visible screens.
@@ -70,8 +74,13 @@ define(['utils/inputhelper', 'utils/text', 'screens/level'], function(Input, Tex
 			
 			for (var i in screens){
 				screens[i].draw(context);
+				// If this screen blocks draw, stop drawing screens
+				if (screens[i].blocksDraw){
+					break;
+				}
 			}
 			
+			context.fillStyle = '#333';
 			Text.draw(context, 'Beeper', 15, canvas.height - 25, 2);
 		};
 		

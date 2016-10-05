@@ -1,7 +1,7 @@
 define(['utils/vector2'], function(Vector2){
 	
 	// Keeps track of input states for the main game loop 
-	var InputHelper = new function(){
+	var InputHelper = new (function(){
 		// List of keyboard controls used in the game.
 		// preventDefault() will be called only when these keys are pressed.
 		var gameKeyControls = [
@@ -13,7 +13,7 @@ define(['utils/vector2'], function(Vector2){
         ];
 	
 		var pressedKeys = [],
-			lastPressedKeys = pressedKeys;
+			lastPressedKeys = [];
 		
 		// Private functions
 		var onKeyDown = function(e){
@@ -41,7 +41,7 @@ define(['utils/vector2'], function(Vector2){
 		// Public functions
 		// Updates the stored input states.
 		this.update = function(){
-			lastPressedKeys = pressedKeys;
+			lastPressedKeys = pressedKeys.slice();
 		};
 		
 		// Get whether the specified key is pressed (true) or not (false)
@@ -57,7 +57,7 @@ define(['utils/vector2'], function(Vector2){
 		// Initialization
 		document.addEventListener('keydown', onKeyDown);
 		document.addEventListener('keyup', onKeyUp);
-	}();
+	})();
 	
 	return InputHelper;
 });

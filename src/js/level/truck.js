@@ -21,6 +21,10 @@ define(['level/trailer', 'utils/vector2', 'utils/rectangle', 'utils/inputhelper'
 			return trailer;
 		};
 		
+		this.getBoundingBox = function(){
+			return boundingBox;
+		};
+		
 		this.updateBoundingBox = function(){
 			boundingBox.x = position.x;
 			boundingBox.y = position.y;

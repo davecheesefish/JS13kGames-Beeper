@@ -21,8 +21,8 @@ define(['utils/rectangle'], function(Rectangle){
 		
 		this.draw = function(context){
 			context.fillStyle = null;
-			context.fillStyle = '#378B2E';
-			context.strokeStyle = '#378B2E';
+			context.fillStyle = '#3A15A8';
+			context.strokeStyle = '#3A15A8';
 			context.globalAlpha = trailerInArea ? 1: 0.5 + 0.5 * Math.abs(Math.cos(6 * animTimer));
 			context.lineWidth = 3;
 			boundingBox.draw(context, !trailerInArea);
